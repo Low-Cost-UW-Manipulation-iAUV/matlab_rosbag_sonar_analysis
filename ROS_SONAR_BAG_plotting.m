@@ -3,7 +3,7 @@ clc
 close all
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-08-11-59-31.bag');
+bag = ros.Bag.load('2015-01-09-11-51-33.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
@@ -36,6 +36,9 @@ for x = 1:length(plot_data_1)
     plot_data_1(1,x) = sonar_steps2rad(plot_data_1(1,x));
 end
 
+%% Filter the data - high pass filter with nyquist = 13187.5Hz and cutoff = 2639Hz (10 samples ??)
+[b,a] = butter(5, 0.2, 'low');
+plot_data_1(4:end,:) = filter(b,a, plot_data_1(4:end,:));
 %% Plot the sonar
 sfp = plot_sonar(plot_data_1, -127, 127, 200);
 %% Plot the x,y data
