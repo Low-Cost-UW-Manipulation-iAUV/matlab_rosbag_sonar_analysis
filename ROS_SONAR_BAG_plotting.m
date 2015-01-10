@@ -37,7 +37,7 @@ for x = 1:length(plot_data_1)
 end
 
 %% Filter the data - high pass filter with nyquist = 13187.5Hz and cutoff = 2639Hz (10 samples ??)
-[b,a] = butter(5, 0.2, 'low');
+[b,a] = butter(5, 0.1, 'low');
 plot_data_1(4:end,:) = filter(b,a, plot_data_1(4:end,:));
 %% Plot the sonar
 sfp = plot_sonar(plot_data_1, -127, 127, 200);
