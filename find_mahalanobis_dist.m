@@ -32,14 +32,25 @@ hold all;
 plot(baseline_time_data_2, plot_data_2(1,:),'.-');
 plot(baseline_time_data_3, plot_data_3(2,:),'.-');
 
-title('');
+title('Sonar Position x,y - 2015-01-10-16-00-24.bag');
 legend('x','y');
 %ylim([-5 5]);
 hold off;
+ylabel('m');
+xlabel('samples');
+
 
 
 %% Calculate the Mohalanobis Distance
 load('Wall Distance ground truth.mat');
+figure(7710213)
+plot(ground_truth,'DisplayName','ground_truth');
+title('Ground Truth of Sonar - 2015-01-10-16-xx-xx.bag');
+xlabel('samples');
+ylabel('m');
+legend('x','y');
+grid on
+
 X_x = ground_truth(:,1);
 Y_x = plot_data_2(1,:).';
 
@@ -51,8 +62,13 @@ d1_x = mahal(Y_x,X_x);
 figure(3321234);
 plot(d1_x);
 title('Mahalanobis Distance of X data');
+ylabel('M.distance');
+xlabel('samples');
 
 d1_y = mahal(Y_y,X_y);
 figure(332187567);
 plot(d1_y);
 title('Mahalanobis Distance of Y data');
+ylabel('M.distance');
+xlabel('samples');
+
