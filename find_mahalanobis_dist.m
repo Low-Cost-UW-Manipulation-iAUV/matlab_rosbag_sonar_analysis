@@ -3,7 +3,7 @@ clc
 close all
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-10-16-00-24.bag');
+bag = ros.Bag.load('2015-01-13-13-09-15.bag');
 bag.info()
 %% Read all messages on a few topics
 %topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here

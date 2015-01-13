@@ -3,7 +3,7 @@ clc
 close all
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-09-11-51-33.bag');
+bag = ros.Bag.load('2015-01-13-12-56-19.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
@@ -15,20 +15,22 @@ topic3 = '/sonar/position/y';
 [data_2, meta_2] = bag.readAll(topic2);
 [data_3, meta_3] = bag.readAll(topic3);
 
-%% Plot the raw data
+%% Extract the data from the rosbag
 sonar_Output = @(Int32MultiArray) Int32MultiArray.data;
 
 [plot_data_1] = ros.msgs2mat_broken_msgs(data_1, sonar_Output); 
-times_data_1 = cellfun(@(x) x.time.time, meta_1); % Get timestamps
+% Get timestamps
+times_data_1 = cellfun(@(x) x.time.time, meta_1); 
 baseline_time_data_1 = times_data_1-times_data_1(1);
 
-% Manually repair the broken messages...
+%% Manually repair the broken messages...
 
 for x = 1:length(plot_data_1)
     if length(plot_data_1{1,x}) ~= 214;
-        plot_data_1{:,x} = [];
+        plot_data_1{:,x} = [];%zeros(214,1);
     end
 end
+% by removing them
 plot_data_1 = double([plot_data_1{:}]);
 
 %% Calculate the heading
@@ -36,9 +38,14 @@ for x = 1:length(plot_data_1)
     plot_data_1(1,x) = sonar_steps2rad(plot_data_1(1,x));
 end
 
-%% Filter the data - high pass filter with nyquist = 13187.5Hz and cutoff = 2639Hz (10 samples ??)
-[b,a] = butter(5, 0.1, 'low');
-plot_data_1(4:end,:) = filter(b,a, plot_data_1(4:end,:));
+%% Plot the raw polar data
+figure(33101239)
+image(plot_data_1(4:end,:)); hold all
+plot(plot_data_1(1,:)/pi*180, 'white')
+title('raw polar data unwrapped, broken messages removed')
+ylabel('distance [bins], angle [deg]');
+xlabel('samples');
+
 %% Plot the sonar
 sfp = plot_sonar(plot_data_1, -127, 127, 200);
 %% Plot the x,y data
