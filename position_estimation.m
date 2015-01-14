@@ -7,7 +7,7 @@ nbins = 211;
 
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-13-12-21-54.bag');
+bag = ros.Bag.load('2015-01-13-12-56-19.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
@@ -79,8 +79,8 @@ end
 figure(12372)
 hold all
 try
-plot(data(1,:),data(2,:),'*','DisplayName','Cont. sequence of 3 above 120');
-plot(90,mean(data(2,:)),'.','DisplayName','mean(Cont. sequence of 3 above 120)');
+plot(data(1,:),data(2,:),'o','DisplayName','Cont. sequence of 3 above 120');
+plot(90,mean(data(2,:)),'*','DisplayName','mean(Cont. sequence of 3 above 120)');
 catch
 end
 
@@ -111,7 +111,7 @@ for x = 1: length(plot_data_1)
     end
 end
 
-plot(data(1,:),data(2,:),'.','DisplayName','center of area of 10cm with average above 110');
+plot(data(1,:),data(2,:),'*','DisplayName','center of area of 10cm with average above 110');
 plot(90,mean(data(2,:)),'o','DisplayName','mean(center of area of 10cm with average above 110)');
 
 %% Multi Beam analysis
@@ -151,7 +151,7 @@ for x = 1: length(plot_data_1)
         end
     end
 end
-plot(data(1,:),data(2,:),'.','Displayname','Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"');
+plot(data(1,:),data(2,:),'*','Displayname','Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"');
 plot(90,mean(data(2,:)),'o','DisplayName','mean(Cont. sequence of 3 above 120 after blurring with "ones(3), center=0")');
 
 xlim([87.5, 92.5])
