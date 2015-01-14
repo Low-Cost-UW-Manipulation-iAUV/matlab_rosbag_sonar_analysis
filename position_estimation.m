@@ -77,10 +77,8 @@ for x = 1: length(plot_data_1)
     end
 end
 figure(12372)
-plot(data(1,:),data(2,:),'.')
-title('Y Position - Cont. sequence of 3 above 120')
-ylabel('distance [m]');
-xlabel('angle [°]');
+hold all
+plot(data(1,:),data(2,:),'*','DisplayName','Cont. sequence of 3 above 120');
 
 %% Find sequence of n datapoints whose average is above x
 clear data
@@ -110,11 +108,7 @@ for x = 1: length(plot_data_1)
     end
 end
 
-figure(1122372)
-plot(data(1,:),data(2,:),'.')
-title('Y Position - center of area of 10cm with average above 110')
-ylabel('distance [m]');
-xlabel('angle [°]');
+plot(data(1,:),data(2,:),'.','DisplayName','center of area of 10cm with average above 110');
 
 %% Multi Beam analysis
 %% Blurring across 5° aka 10 lines @ 0.45°/line, ...
@@ -153,8 +147,9 @@ for x = 1: length(plot_data_1)
         end
     end
 end
-figure(1852372)
-plot(data(1,:),data(2,:),'.')
-title('Y Position - Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"')
+plot(data(1,:),data(2,:),'.','Displayname','Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"');
+xlim([87.5, 92.5])
+title('Sonar Y Position Filtering - 3 Approaches')
 ylabel('distance [m]');
 xlabel('angle [°]');
+legend(gca,'show')
