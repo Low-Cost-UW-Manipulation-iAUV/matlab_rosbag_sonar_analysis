@@ -15,7 +15,7 @@ center = 360;
 
 % limits crossing the wrapping point
 detect_limits = @(x)(x <= left_limit) || (x >= right_limit);
-plot_limits = [left_limit-0.5, right_limit+0.5+2];
+plot_limits = [-0.5, 360+0.5];
 break_the_x_axis = [left_limit+0.1, right_limit-0.1];
 % continous crossings
 %detect_limits = @(x)(x <= left_limit) && (x >= right_limit);
@@ -24,7 +24,7 @@ break_the_x_axis = [left_limit+0.1, right_limit-0.1];
 
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-13-13-09-15.bag');
+bag = ros.Bag.load('2015-01-13-12-56-19.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
