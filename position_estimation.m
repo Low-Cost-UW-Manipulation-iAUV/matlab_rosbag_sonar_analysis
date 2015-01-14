@@ -51,7 +51,7 @@ clear y
 threshold = 120;
 sequence_threshold = 3;
 
-data = zeros(2,length(plot_data_1));
+data = 0;
 % insert the angle in deg.
 data_counter = 1;
 for x = 1: length(plot_data_1)
@@ -66,11 +66,11 @@ for x = 1: length(plot_data_1)
             end
             
             if sequence_counter >= sequence_threshold
-                data_counter = data_counter + 1;
                 data(1,data_counter) = plot_data_1(1,x);
                 data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
                 data(2,data_counter) = data(2,data_counter) * range/nbins;
-                %break;
+                data_counter = data_counter + 1;
+                break;
                 sequence_counter=0;
             end
         end
@@ -79,6 +79,8 @@ end
 figure(12372)
 hold all
 plot(data(1,:),data(2,:),'*','DisplayName','Cont. sequence of 3 above 120');
+plot(90,mean(data(2,:)),'.','DisplayName','mean(Cont. sequence of 3 above 120)');
+
 
 %% Find sequence of n datapoints whose average is above x
 clear data
@@ -89,7 +91,7 @@ threshold = 110;
 % 0.1m averaging...
 filter_length = round(0.1/(range/nbins));
 
-data = zeros(2,length(plot_data_1));
+data = 0;
 data_counter = 1;
 
 for x = 1: length(plot_data_1)
@@ -97,18 +99,18 @@ for x = 1: length(plot_data_1)
         for y = 4:length(plot_data_1(4:end-filter_length, 1))
             rolling_avg = mean(plot_data_1(y:(y+filter_length),x));
             if rolling_avg >= threshold
-                data_counter = data_counter + 1;
-                
                 %insert the angle
                 data(1,data_counter) = plot_data_1(1,x);
                 data(2,data_counter) = (y + (y + filter_length) )/2 *range/nbins;
-                %break;
+                data_counter = data_counter + 1;                
+                break;
             end
         end
     end
 end
 
 plot(data(1,:),data(2,:),'.','DisplayName','center of area of 10cm with average above 110');
+plot(90,mean(data(2,:)),'o','DisplayName','mean(center of area of 10cm with average above 110)');
 
 %% Multi Beam analysis
 %% Blurring across 5° aka 10 lines @ 0.45°/line, ...
@@ -123,7 +125,7 @@ new_plot_data_1(4:end, :) = H(2:end-1, 2:end-1);
 threshold = 100;
 sequence_threshold = 3;
 
-data = zeros(2,length(plot_data_1));
+data = 0;
 % insert the angle in deg.
 data_counter = 1;
 for x = 1: length(plot_data_1)
@@ -137,19 +139,21 @@ for x = 1: length(plot_data_1)
             end
             
             if sequence_counter >= sequence_threshold
-                data_counter = data_counter + 1;
                 data(1,data_counter) = plot_data_1(1,x);
                 data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
                 data(2,data_counter) = data(2,data_counter) * range/nbins;
-                %break;
+                data_counter = data_counter + 1;                
+                break;
                 sequence_counter = 0;
             end
         end
     end
 end
 plot(data(1,:),data(2,:),'.','Displayname','Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"');
+plot(90,mean(data(2,:)),'o','DisplayName','mean(Cont. sequence of 3 above 120 after blurring with "ones(3), center=0")');
+
 xlim([87.5, 92.5])
 title('Sonar Y Position Filtering - 3 Approaches')
 ylabel('distance [m]');
 xlabel('angle [°]');
-legend(gca,'show')
+legend(gca,'show', 'Location','SouthOutside')
