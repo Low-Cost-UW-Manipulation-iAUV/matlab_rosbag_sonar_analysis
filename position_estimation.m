@@ -7,7 +7,7 @@ nbins = 211;
 
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-13-12-56-19.bag');
+bag = ros.Bag.load('2015-01-13-12-21-54.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
@@ -78,9 +78,11 @@ for x = 1: length(plot_data_1)
 end
 figure(12372)
 hold all
+try
 plot(data(1,:),data(2,:),'*','DisplayName','Cont. sequence of 3 above 120');
 plot(90,mean(data(2,:)),'.','DisplayName','mean(Cont. sequence of 3 above 120)');
-
+catch
+end
 
 %% Find sequence of n datapoints whose average is above x
 clear data
