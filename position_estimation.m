@@ -69,7 +69,8 @@ for x = 1: length(plot_data_1)
             data(1,data_counter) = plot_data_1(1,x);
             data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
             data(2,data_counter) = data(2,data_counter) * range/nbins;
-            break;
+            %break;
+            sequence_counter=0;
         end
     end
 end
@@ -100,7 +101,7 @@ for x = 1: length(plot_data_1)
             %insert the angle            
             data(1,data_counter) = plot_data_1(1,x);
             data(2,data_counter) = (y + (y + filter_length) )/2 *range/nbins;
-            break;
+            %break;
         end
     end
 end
@@ -142,13 +143,13 @@ for x = 1: length(plot_data_1)
             data(1,data_counter) = plot_data_1(1,x);
             data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
             data(2,data_counter) = data(2,data_counter) * range/nbins;
-            break;
-           % sequence_counter = 0;
+            %break;
+            sequence_counter = 0;
         end
     end
 end
 figure(1852372)
 plot(data(1,:),data(2,:),'.')
-title('Y Position - Cont. sequence of 3 above 120 after blurring with 3x3')
+title('Y Position - Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"')
 ylabel('distance [m]');
 xlabel('angle [°]');

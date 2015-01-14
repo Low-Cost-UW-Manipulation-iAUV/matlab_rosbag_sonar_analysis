@@ -1,0 +1,22 @@
+----
+**research_log:13_jan_2015**
+======Sonar - Delta M ====
+To find out if I can determine the change in distance of the sub from the **unaltered wall**.
+
+I took measurements with the sonar in the usual orientation (x axis parallel to the short side of the pool) at **3 different distances to that wall**, while keeping the orientation the same.
+
+Each dataset comprises about 5min of data at:
+  * 6m range
+  * 211 bins
+  * 0.45° steps -> 'high resolution'
+  * heading 100° -> -10° - 'ping pong'
+  * there is a //'broken pizzaslice'// covering 21.43° <-> 36.28°
+    * datapoints from these headings are empty
+    * to allow plotting these datapoints have been removed
+
+
+2015-01-13-12-21-54.bag
+2015-01-13-12-56-19.bag
+2015-01-13-13-09-15.bag
+
+----
