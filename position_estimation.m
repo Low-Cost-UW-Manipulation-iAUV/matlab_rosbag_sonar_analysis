@@ -1,6 +1,9 @@
 clear all
 clc
 close all
+
+break_the_x_axis = [0,0];
+
 %% Sonar data:
 range = 6;
 nbins = 211;
@@ -8,10 +11,11 @@ nbins = 211;
 %% Detection limits
 left_limit = 2;
 right_limit = 358;
+center = 360;
 
 % limits crossing the wrapping point
 detect_limits = @(x)(x <= left_limit) || (x >= right_limit);
-plot_limits = [left_limit-0.5, right_limit+0.5];
+plot_limits = [left_limit-0.5, right_limit+0.5+2];
 break_the_x_axis = [left_limit+0.1, right_limit-0.1];
 % continous crossings
 %detect_limits = @(x)(x <= left_limit) && (x >= right_limit);
@@ -93,7 +97,7 @@ figure(12372)
 hold all
 try
     plot(data(1,:),data(2,:),'o','DisplayName','Cont. sequence of 3 above 120');
-    plot(90,mean(data(2,:)),'*','DisplayName','mean(Cont. sequence of 3 above 120)');
+    plot(center,mean(data(2,:)),'*','DisplayName','mean(Cont. sequence of 3 above 120)');
 catch
 end
 
@@ -125,7 +129,7 @@ for x = 1: length(plot_data_1)
 end
 try
     plot(data(1,:),data(2,:),'*','DisplayName','center of area of 10cm with average above 110');
-    plot(90,mean(data(2,:)),'o','DisplayName','mean(center of area of 10cm with average above 110)');
+    plot(center,mean(data(2,:)),'o','DisplayName','mean(center of area of 10cm with average above 110)');
 catch
 end
 %% Multi Beam analysis
@@ -167,7 +171,7 @@ for x = 1: length(plot_data_1)
 end
 try
     plot(data(1,:),data(2,:),'*','Displayname','Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"');
-    plot(90,mean(data(2,:)),'o','DisplayName','mean(Cont. sequence of 3 above 120 after blurring with "ones(3), center=0")');
+    plot(center,mean(data(2,:)),'o','DisplayName','mean(Cont. sequence of 3 above 120 after blurring with "ones(3), center=0")');
 catch
 end
 xlim(plot_limits)
