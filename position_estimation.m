@@ -11,13 +11,16 @@ right_limit = 358;
 
 % limits crossing the wrapping point
 detect_limits = @(x)(x <= left_limit) || (x >= right_limit);
+plot_limits = [left_limit-0.5, right_limit+0.5];
 
 % continous crossings
 %detect_limits = @(x)(x <= left_limit) && (x >= right_limit);
+%plot_limits = [left_limit+0.5, right_limit-0.5];
+
 
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-13-12-21-54.bag');
+bag = ros.Bag.load('2015-01-13-13-09-15.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
@@ -167,7 +170,7 @@ plot(data(1,:),data(2,:),'*','Displayname','Cont. sequence of 3 above 120 after 
 plot(90,mean(data(2,:)),'o','DisplayName','mean(Cont. sequence of 3 above 120 after blurring with "ones(3), center=0")');
 catch
 end
-xlim([87.5, 92.5])
+xlim(plot_limits)
 title('Sonar X Position Filtering - 3 Approaches')
 ylabel('distance [m]');
 xlabel('angle [°]');
