@@ -12,7 +12,7 @@ right_limit = 358;
 % limits crossing the wrapping point
 detect_limits = @(x)(x <= left_limit) || (x >= right_limit);
 plot_limits = [left_limit-0.5, right_limit+0.5];
-
+break_the_x_axis = [left_limit+0.1, right_limit-0.1];
 % continous crossings
 %detect_limits = @(x)(x <= left_limit) && (x >= right_limit);
 %plot_limits = [left_limit+0.5, right_limit-0.5];
@@ -92,8 +92,8 @@ end
 figure(12372)
 hold all
 try
-plot(data(1,:),data(2,:),'o','DisplayName','Cont. sequence of 3 above 120');
-plot(90,mean(data(2,:)),'*','DisplayName','mean(Cont. sequence of 3 above 120)');
+    plot(data(1,:),data(2,:),'o','DisplayName','Cont. sequence of 3 above 120');
+    plot(90,mean(data(2,:)),'*','DisplayName','mean(Cont. sequence of 3 above 120)');
 catch
 end
 
@@ -117,15 +117,15 @@ for x = 1: length(plot_data_1)
                 %insert the angle
                 data(1,data_counter) = plot_data_1(1,x);
                 data(2,data_counter) = (y + (y + filter_length) )/2 *range/nbins;
-                data_counter = data_counter + 1;                
+                data_counter = data_counter + 1;
                 break;
             end
         end
     end
 end
 try
-plot(data(1,:),data(2,:),'*','DisplayName','center of area of 10cm with average above 110');
-plot(90,mean(data(2,:)),'o','DisplayName','mean(center of area of 10cm with average above 110)');
+    plot(data(1,:),data(2,:),'*','DisplayName','center of area of 10cm with average above 110');
+    plot(90,mean(data(2,:)),'o','DisplayName','mean(center of area of 10cm with average above 110)');
 catch
 end
 %% Multi Beam analysis
@@ -158,7 +158,7 @@ for x = 1: length(plot_data_1)
                 data(1,data_counter) = plot_data_1(1,x);
                 data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
                 data(2,data_counter) = data(2,data_counter) * range/nbins;
-                data_counter = data_counter + 1;                
+                data_counter = data_counter + 1;
                 break;
                 sequence_counter = 0;
             end
@@ -166,8 +166,8 @@ for x = 1: length(plot_data_1)
     end
 end
 try
-plot(data(1,:),data(2,:),'*','Displayname','Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"');
-plot(90,mean(data(2,:)),'o','DisplayName','mean(Cont. sequence of 3 above 120 after blurring with "ones(3), center=0")');
+    plot(data(1,:),data(2,:),'*','Displayname','Cont. sequence of 3 above 120 after blurring with "ones(3), center=0"');
+    plot(90,mean(data(2,:)),'o','DisplayName','mean(Cont. sequence of 3 above 120 after blurring with "ones(3), center=0")');
 catch
 end
 xlim(plot_limits)
@@ -175,3 +175,6 @@ title('Sonar X Position Filtering - 3 Approaches')
 ylabel('distance [m]');
 xlabel('angle [°]');
 legend(gca,'show', 'Location','SouthOutside')
+if break_the_x_axis(1,2) ~= 0 && break_the_x_axis(1,1)~= 0
+    h = breakxaxis(break_the_x_axis);
+end
