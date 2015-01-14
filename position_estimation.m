@@ -57,20 +57,22 @@ data_counter = 1;
 for x = 1: length(plot_data_1)
     
     sequence_counter = 0;
-    for y = 4:length(plot_data_1(4:end,1))
-        if plot_data_1(y,x) >= threshold
-            sequence_counter = sequence_counter + 1;
-        else
-            sequence_counter = 0;
-        end
-        
-        if sequence_counter >= sequence_threshold
-            data_counter = data_counter + 1;
-            data(1,data_counter) = plot_data_1(1,x);
-            data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
-            data(2,data_counter) = data(2,data_counter) * range/nbins;
-            %break;
-            sequence_counter=0;
+    if (plot_data_1(1,x) >= 88) && (plot_data_1(1,x) <= 92)
+        for y = 4:length(plot_data_1(4:end,1))
+            if plot_data_1(y,x) >= threshold
+                sequence_counter = sequence_counter + 1;
+            else
+                sequence_counter = 0;
+            end
+            
+            if sequence_counter >= sequence_threshold
+                data_counter = data_counter + 1;
+                data(1,data_counter) = plot_data_1(1,x);
+                data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
+                data(2,data_counter) = data(2,data_counter) * range/nbins;
+                %break;
+                sequence_counter=0;
+            end
         end
     end
 end
@@ -93,15 +95,17 @@ data = zeros(2,length(plot_data_1));
 data_counter = 1;
 
 for x = 1: length(plot_data_1)
-    for y = 4:length(plot_data_1(4:end-filter_length, 1))
-        rolling_avg = mean(plot_data_1(y:(y+filter_length),x));
-        if rolling_avg >= threshold
-            data_counter = data_counter + 1;
-            
-            %insert the angle            
-            data(1,data_counter) = plot_data_1(1,x);
-            data(2,data_counter) = (y + (y + filter_length) )/2 *range/nbins;
-            %break;
+    if (plot_data_1(1,x) >= 88) && (plot_data_1(1,x) <= 92)
+        for y = 4:length(plot_data_1(4:end-filter_length, 1))
+            rolling_avg = mean(plot_data_1(y:(y+filter_length),x));
+            if rolling_avg >= threshold
+                data_counter = data_counter + 1;
+                
+                %insert the angle
+                data(1,data_counter) = plot_data_1(1,x);
+                data(2,data_counter) = (y + (y + filter_length) )/2 *range/nbins;
+                %break;
+            end
         end
     end
 end
@@ -114,7 +118,7 @@ xlabel('angle [°]');
 
 %% Multi Beam analysis
 %% Blurring across 5° aka 10 lines @ 0.45°/line, ...
-% Then some 
+% Then some
 
 s = ones(3) * 1/8;
 s(2,2) = 0;
@@ -129,22 +133,23 @@ data = zeros(2,length(plot_data_1));
 % insert the angle in deg.
 data_counter = 1;
 for x = 1: length(plot_data_1)
-    
-    sequence_counter = 0;
-    for y = 4:length(new_plot_data_1(4:end,1))
-        if new_plot_data_1(y,x) >= threshold
-            sequence_counter = sequence_counter + 1;
-        else
-            sequence_counter = 0;
-        end
-        
-        if sequence_counter >= sequence_threshold
-            data_counter = data_counter + 1;
-            data(1,data_counter) = plot_data_1(1,x);
-            data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
-            data(2,data_counter) = data(2,data_counter) * range/nbins;
-            %break;
-            sequence_counter = 0;
+    if (plot_data_1(1,x) >= 88) && (plot_data_1(1,x) <= 92)
+        sequence_counter = 0;
+        for y = 4:length(new_plot_data_1(4:end,1))
+            if new_plot_data_1(y,x) >= threshold
+                sequence_counter = sequence_counter + 1;
+            else
+                sequence_counter = 0;
+            end
+            
+            if sequence_counter >= sequence_threshold
+                data_counter = data_counter + 1;
+                data(1,data_counter) = plot_data_1(1,x);
+                data(2,data_counter) = (y + (y - sequence_counter ) ) / 2;
+                data(2,data_counter) = data(2,data_counter) * range/nbins;
+                %break;
+                sequence_counter = 0;
+            end
         end
     end
 end
