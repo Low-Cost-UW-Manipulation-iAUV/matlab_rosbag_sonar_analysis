@@ -24,7 +24,7 @@ break_the_x_axis = [left_limit+0.1, right_limit-0.1];
 
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-13-13-09-15.bag');
+bag = ros.Bag.load('2015-01-13-12-56-19.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
@@ -95,6 +95,8 @@ for x = 1: length(plot_data_1)
 end
 figure(12372)
 hold all
+colormap(hsv(20))
+
 try
     plot(data(1,:),data(2,:),'o','DisplayName','Cont. sequence of 3 above 120');
     plot(center,mean(data(2,:)),'*','DisplayName','mean(Cont. sequence of 3 above 120)');
@@ -155,8 +157,8 @@ for x = 1: length(plot_data_1)
     end     
 end
 try
-    plot(data(1,:),data(2,:),'*','Displayname','Mountains (avg>=70) behind valleys (avg<=20)');
-    plot(center,mean(data(2,:)),'o','DisplayName','mean(Mountains (avg>=70) behind valleys (avg<=20))');
+    plot(data(1,:),data(2,:),'*','Displayname','Mountains (avg>=70) behind valleys (avg<=10)');
+    plot(center,mean(data(2,:)),'o','DisplayName','mean(Mountains (avg>=70) behind valleys (avg<=10))');
 catch
 end
 
@@ -203,8 +205,34 @@ try
     plot(center,mean(data(2,:)),'o','DisplayName','mean(Cont. sequence of 3 above 120 after blurring with "ones(3), center=0")');
 catch
 end
+
+%% 
+data = 0;
+data_counter = 1;
+
+for x = 1: length(new_plot_data_1)
+    if detect_limits(new_plot_data_1(1,x))
+
+        for y = 4:length(new_plot_data_1(4:end-19,1))
+            if ( mean(new_plot_data_1(y:y+9,x) ) <= 10 )
+                if(mean(new_plot_data_1(y+9:y+19,x)) >= 70)
+                [~, data(2,data_counter)] = max(new_plot_data_1(y+9:y+19,x));
+                data(2,data_counter) = (data(2,data_counter)+9+y-1)*(range/nbins);
+                data(1,data_counter) = new_plot_data_1(1,x);
+                end
+            end
+        end
+    end     
+end
+try
+    plot(data(1,:),data(2,:),'*','Displayname','Blurring, Mountains (avg>=70) behind valleys (avg<=10)');
+    plot(center,mean(data(2,:)),'o','DisplayName','mean(Blurring, Mountains (avg>=70) behind valleys (avg<=10))');
+catch
+end
+
+%% PLot
 xlim(plot_limits)
-title('Sonar X Position Filtering - 4 Approaches')
+title('Sonar X Position Filtering - 5 Approaches')
 ylabel('distance [m]');
 xlabel('angle [°]');
 legend(gca,'show', 'Location','SouthOutside')
