@@ -24,7 +24,7 @@ break_the_x_axis = [left_limit+0.1, right_limit-0.1];
 
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-13-12-56-19.bag');
+bag = ros.Bag.load('2015-01-13-13-09-15.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
@@ -144,7 +144,7 @@ for x = 1: length(plot_data_1)
     if detect_limits(plot_data_1(1,x))
 
         for y = 4:length(plot_data_1(4:end-19,1))
-            if ( mean(plot_data_1(y:y+9,x) ) <= 20 )
+            if ( mean(plot_data_1(y:y+9,x) ) <= 10 )
                 if(mean(plot_data_1(y+9:y+19,x)) >= 70)
                 [~, data(2,data_counter)] = max(plot_data_1(y+9:y+19,x));
                 data(2,data_counter) = (data(2,data_counter)+9+y-1)*(range/nbins);
