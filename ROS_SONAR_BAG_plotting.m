@@ -3,7 +3,7 @@ clc
 close all
 %% Load a bag and get information about it
 % Using load() lets you auto-complete filepaths.
-bag = ros.Bag.load('2015-01-13-12-56-19.bag');
+bag = ros.Bag.load('2015-01-13-13-09-15.bag');
 bag.info()
 %% Read all messages on a few topics
 topic1 = '/sonarData';	% make sure it matches EXACTLY, including all / or without / the data shown in the command window here
@@ -18,7 +18,7 @@ topic3 = '/sonar/position/y';
 %% Extract the data from the rosbag
 sonar_Output = @(Int32MultiArray) Int32MultiArray.data;
 
-[plot_data_1] = ros.msgs2mat_broken_msgs(data_1, sonar_Output); 
+[plot_data_1] = ros.msgs2mat_broken_msgs(data_1(1:700), sonar_Output); 
 % Get timestamps
 times_data_1 = cellfun(@(x) x.time.time, meta_1); 
 baseline_time_data_1 = times_data_1-times_data_1(1);
@@ -40,7 +40,10 @@ end
 
 %% Plot the raw polar data
 figure(33101239)
-image(plot_data_1(4:end,:)); hold all
+image(plot_data_1(4:end,:),'CDataMapping','scaled');
+%caxis([10, 130])
+%imshow(mat2gray(plot_data_1(4:end,:),[10, 130] ) );
+hold all
 plot(plot_data_1(1,:)/pi*180, 'white')
 title('raw polar data unwrapped, broken messages removed')
 ylabel('distance [bins], angle [deg]');

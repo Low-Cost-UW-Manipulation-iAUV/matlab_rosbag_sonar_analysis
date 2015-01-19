@@ -65,7 +65,7 @@ end
 clear data
 clear x
 clear y
-threshold = 120;
+threshold = 100;
 sequence_threshold = 3;
 
 data = 0;
@@ -132,6 +132,34 @@ try
     plot(center,mean(data(2,:)),'o','DisplayName','mean(center of area of 10cm with average above 110)');
 catch
 end
+
+%% Find Mountains behind valley
+% The real wall reflection on the sonar is preceeded by a valley around
+% value 0. So I am looking for an array of 10 values under 50 followed by
+% 10 values with average of 70 or greater
+data = 0;
+data_counter = 1;
+
+for x = 1: length(plot_data_1)
+    if detect_limits(plot_data_1(1,x))
+
+        for y = 4:length(plot_data_1(4:end-19,1))
+            if ( mean(plot_data_1(y:y+9,x) ) <= 20 )
+                if(mean(plot_data_1(y+9:y+19,x)) >= 70)
+                [~, data(2,data_counter)] = max(plot_data_1(y+9:y+19,x));
+                data(2,data_counter) = (data(2,data_counter)+9+y-1)*(range/nbins);
+                data(1,data_counter) = plot_data_1(1,x);
+                end
+            end
+        end
+    end     
+end
+try
+    plot(data(1,:),data(2,:),'*','Displayname','Mountains (avg>=70) behind valleys (avg<=20)');
+    plot(center,mean(data(2,:)),'o','DisplayName','mean(Mountains (avg>=70) behind valleys (avg<=20))');
+catch
+end
+
 %% Multi Beam analysis
 %% Blurring across 5° aka 10 lines @ 0.45°/line, ...
 % Then some
@@ -146,6 +174,7 @@ threshold = 100;
 sequence_threshold = 3;
 
 data = 0;
+
 % insert the angle in deg.
 data_counter = 1;
 for x = 1: length(plot_data_1)
@@ -175,7 +204,7 @@ try
 catch
 end
 xlim(plot_limits)
-title('Sonar X Position Filtering - 3 Approaches')
+title('Sonar X Position Filtering - 4 Approaches')
 ylabel('distance [m]');
 xlabel('angle [°]');
 legend(gca,'show', 'Location','SouthOutside')
