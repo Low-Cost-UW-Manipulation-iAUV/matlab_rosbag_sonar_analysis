@@ -10,13 +10,13 @@ nbins = 211;
 
 %% Detection limits
 left_limit = 2;
-right_limit = 358;
-center = 360;
+right_limit = -2;
+center = 0;
 
 % limits crossing the wrapping point
-detect_limits = @(x)(x <= left_limit) || (x >= right_limit);
-plot_limits = [-0.5, 360+0.5];
-break_the_x_axis = [left_limit+0.1, right_limit-0.1];
+detect_limits = @(x)(x <= left_limit) && (x >= right_limit);
+%plot_limits = [-0.5, 360+0.5];
+%break_the_x_axis = [left_limit+0.1, right_limit-0.1];
 % continous crossings
 %detect_limits = @(x)(x <= left_limit) && (x >= right_limit);
 %plot_limits = [left_limit+0.5, right_limit-0.5];
@@ -55,6 +55,9 @@ plot_data_1 = double([plot_data_1{:}]);
 %% Calculate the heading
 for x = 1:length(plot_data_1)
     plot_data_1(1,x) = sonar_steps2deg(plot_data_1(1,x));
+    if plot_data_1(1,x) >=180;
+        plot_data_1(1,x) = -1* (360 - plot_data_1(1,x));
+    end
 end
 
 %% Different approaches to finding the position of the wall
@@ -234,7 +237,7 @@ catch
 end
 
 %% PLot
-xlim(plot_limits)
+%xlim(plot_limits)
 title('Sonar X Position Filtering - 5 Approaches')
 ylabel('distance [m]');
 xlabel('angle [°]');
