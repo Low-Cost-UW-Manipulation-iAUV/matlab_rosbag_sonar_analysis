@@ -151,6 +151,7 @@ for x = 1: length(plot_data_1)
                 [~, data(2,data_counter)] = max(plot_data_1(y+9:y+19,x));
                 data(2,data_counter) = (data(2,data_counter)+9+y-1)*(range/nbins);
                 data(1,data_counter) = plot_data_1(1,x);
+                data_counter = data_counter +1;
                 end
             end
         end
@@ -219,6 +220,8 @@ for x = 1: length(new_plot_data_1)
                 [~, data(2,data_counter)] = max(new_plot_data_1(y+9:y+19,x));
                 data(2,data_counter) = (data(2,data_counter)+9+y-1)*(range/nbins);
                 data(1,data_counter) = new_plot_data_1(1,x);
+                data_counter = data_counter +1;
+                
                 end
             end
         end
