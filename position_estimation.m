@@ -236,6 +236,9 @@ try
 catch
 end
 
+%%
+sonar_processing_with_alex(new_plot_data_1, gcf, left_limit, right_limit, center);
+%%
 %% PLot
 %xlim(plot_limits)
 title('Sonar X Position Filtering - 5 Approaches')
